@@ -1,0 +1,242 @@
+/* ── Header ─────────────────────────────────────────── */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  height: var(--navbar-height);
+  background-color: rgba(10, 10, 10, 0.80);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid transparent;
+  transition:
+    border-color var(--ease-base),
+    background-color var(--ease-base);
+}
+
+.header.scrolled {
+  border-bottom-color: var(--color-border);
+  background-color: rgba(10, 10, 10, 0.97);
+}
+
+/* ── Nav row ────────────────────────────────────────── */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  gap: var(--sp-6);
+}
+
+/* ── Logo ───────────────────────────────────────────── */
+.logo {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  letter-spacing: 0.06em;
+  color: var(--color-text-primary);
+  flex-shrink: 0;
+  transition: opacity var(--ease-fast);
+}
+
+.logo:hover { opacity: 0.85; }
+
+.logoAccent { color: var(--color-accent); }
+
+/* ── Desktop links ──────────────────────────────────── */
+.desktopLinks {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  flex: 1;
+}
+
+.navLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-sm);
+  transition: color var(--ease-fast);
+  white-space: nowrap;
+}
+
+.navLink:hover {
+  color: var(--color-text-primary);
+}
+
+.navLinkActive {
+  color: var(--color-text-primary);
+}
+
+.activeBar {
+  position: absolute;
+  bottom: -3px;
+  left: var(--sp-3);
+  right: var(--sp-3);
+  height: 2px;
+  background-color: var(--color-accent);
+  border-radius: var(--radius-full);
+}
+
+/* ── Desktop actions ────────────────────────────────── */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-shrink: 0;
+}
+
+.adminBtn {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 var(--sp-5);
+  background-color: var(--color-accent);
+  color: var(--color-text-inverse);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  letter-spacing: 0.01em;
+  transition:
+    background-color var(--ease-fast),
+    transform var(--ease-fast),
+    box-shadow var(--ease-fast);
+  white-space: nowrap;
+}
+
+.adminBtn:hover {
+  background-color: var(--color-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-accent);
+}
+
+/* ── Hamburger ──────────────────────────────────────── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  transition: background-color var(--ease-fast);
+}
+
+.hamburger:hover {
+  background-color: var(--color-bg-elevated);
+}
+
+.bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: var(--color-text-primary);
+  border-radius: var(--radius-full);
+  transition:
+    transform var(--ease-base),
+    opacity var(--ease-base);
+  transform-origin: center;
+}
+
+/* Hamburger → X animation */
+.hamburgerOpen .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburgerOpen .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburgerOpen .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── Mobile Drawer ──────────────────────────────────── */
+.drawer {
+  position: fixed;
+  top: var(--navbar-height);
+  right: 0;
+  bottom: 0;
+  width: min(320px, 100vw);
+  background-color: var(--color-bg-surface);
+  border-left: 1px solid var(--color-border);
+  padding: var(--sp-8) var(--sp-6);
+  z-index: 199;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform var(--ease-base);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+.drawerLinks {
+  display: flex;
+  flex-direction: column;
+}
+
+.drawerLink {
+  display: flex;
+  align-items: center;
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+  padding: var(--sp-4) 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+  transition: color var(--ease-fast), padding-left var(--ease-fast);
+}
+
+.drawerLink:hover {
+  color: var(--color-text-primary);
+  padding-left: var(--sp-3);
+}
+
+.drawerLinkActive {
+  color: var(--color-accent);
+}
+
+.drawerAdminBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  background-color: var(--color-accent);
+  color: var(--color-text-inverse);
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-md);
+  margin-top: auto;
+  transition: background-color var(--ease-fast), transform var(--ease-fast);
+}
+
+.drawerAdminBtn:hover {
+  background-color: var(--color-accent-hover);
+  transform: translateY(-1px);
+}
+
+/* ── Backdrop ───────────────────────────────────────── */
+.backdrop {
+  position: fixed;
+  inset: var(--navbar-height) 0 0 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 198;
+  cursor: pointer;
+}
+
+/* ── Responsive breakpoints ─────────────────────────── */
+@media (max-width: 900px) {
+  .desktopLinks { display: none; }
+  .actions { display: none; }
+  .hamburger { display: flex; }
+}
+
+@media (min-width: 901px) {
+  .drawer { display: none; }
+  .backdrop { display: none; }
+}
