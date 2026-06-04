@@ -3,7 +3,7 @@ import './globals.css';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
-/* ── Fonts ─────────────────────────────────────────── */
+/* -- Fonts ------------------------------------ */
 const anton = Anton({
   weight: '400',
   subsets: ['latin'],
@@ -78,7 +78,7 @@ export const metadata = {
   },
 };
 
-/* ── Root Layout ────────────────────────────────────── */
+/* -- Root Layout -------------------------------- */
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${anton.variable} ${inter.variable}`}>

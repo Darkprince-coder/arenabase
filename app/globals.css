@@ -3,7 +3,7 @@
    CSS Variables · Reset · Typography · Utilities
    ===================================================== */
 
-/* ── Design Tokens ─────────────────────────────────── */
+/* -- Design Tokens -------------------------------- */
 :root {
   /* Background layers */
   --color-bg-primary:   #0A0A0A;
@@ -88,7 +88,7 @@
   --section-gap:      clamp(3rem, 6vw, 5rem);
 }
 
-/* ── CSS Reset ──────────────────────────────────────── */
+/* -- CSS Reset ----------------------------------- */
 *,
 *::before,
 *::after {
@@ -159,26 +159,26 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.02em;
 }
 
-/* ── Focus ──────────────────────────────────────────── */
+/* -- Focus ---------------------------------------- */
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
   border-radius: var(--radius-sm);
 }
 
-/* ── Scrollbar ──────────────────────────────────────── */
+/* -- Scrollbar ----------------------------------- */
 ::-webkit-scrollbar        { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track  { background: var(--color-bg-primary); }
 ::-webkit-scrollbar-thumb  { background: var(--color-border); border-radius: var(--radius-full); }
 ::-webkit-scrollbar-thumb:hover { background: #444; }
 
-/* ── Selection ──────────────────────────────────────── */
+/* -- Selection ----------------------------------- */
 ::selection {
   background-color: var(--color-accent);
   color: var(--color-text-inverse);
 }
 
-/* ── Global Layout Utilities ────────────────────────── */
+/* -- Global Layout Utilities ---------------------- */
 .container {
   max-width: var(--max-width);
   margin-inline: auto;
