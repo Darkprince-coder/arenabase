@@ -1,0 +1,59 @@
+/* ── Base ───────────────────────────────────────────── */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  user-select: none;
+}
+
+/* ── SVG badge mark ─────────────────────────────────── */
+.mark {
+  flex-shrink: 0;
+  display: block;
+}
+
+/* ── Wordmark ────────────────────────────────────────── */
+.wordmark {
+  font-family: var(--font-heading);
+  font-weight: 400;          /* Anton is inherently display weight */
+  letter-spacing: 0.04em;
+  line-height: 1;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;                    /* Characters sit flush — no gap */
+}
+
+.arena { color: #FFFFFF; }
+
+.base  { color: #B6FF00; }
+
+.dot {
+  color: #B6FF00;
+  margin-left: 1px;
+}
+
+/* ── Size variants ───────────────────────────────────── */
+
+/* sm — sub-nav, breadcrumbs, loading screens */
+.sm .mark       { height: 26px; width: auto; }
+.sm .wordmark   { font-size: 1.1rem; }
+
+/* md — primary navbar height (default) */
+.md .mark       { height: 36px; width: auto; }
+.md .wordmark   { font-size: 1.5rem; }
+
+/* lg — footer, about page, splash */
+.lg .mark       { height: 48px; width: auto; }
+.lg .wordmark   { font-size: 2rem; }
+
+/* xl — hero / jumbo use */
+.xl .mark       { height: 64px; width: auto; }
+.xl .wordmark   { font-size: 2.75rem; }
+
+/* ── Responsive: collapse wordmark on very small screens ─ */
+@media (max-width: 360px) {
+  .md .wordmark { font-size: 1.2rem; }
+  .lg .wordmark { font-size: 1.5rem; }
+  .logo         { gap: 8px; }
+}

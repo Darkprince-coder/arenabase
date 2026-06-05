@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Logo from '@/components/ui/Logo';
 import styles from './Footer.module.css';
 
 const QUICK_LINKS = [
@@ -69,8 +70,8 @@ export default function Footer() {
 
         {/* Brand */}
         <div className={styles.brand}>
-          <Link href="/" className={styles.logo} aria-label="ARENABASE homepage">
-            ARENA<span className={styles.logoAccent}>BASE</span>
+          <Link href="/" className={styles.logoLink} aria-label="ARENABASE homepage">
+            <Logo size="lg" />
           </Link>
           <p className={styles.tagline}>All local sports. One platform.</p>
         </div>

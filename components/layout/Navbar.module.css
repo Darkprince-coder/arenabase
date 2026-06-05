@@ -29,19 +29,15 @@
   gap: var(--sp-6);
 }
 
-/* ── Logo ───────────────────────────────────────────── */
-.logo {
-  font-family: var(--font-heading);
-  font-size: 1.5rem;
-  letter-spacing: 0.06em;
-  color: var(--color-text-primary);
+/* ── Logo link wrapper ──────────────────────────────── */
+.logoLink {
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
   transition: opacity var(--ease-fast);
 }
 
-.logo:hover { opacity: 0.85; }
-
-.logoAccent { color: var(--color-accent); }
+.logoLink:hover { opacity: 0.85; }
 
 /* ── Desktop links ──────────────────────────────────── */
 .desktopLinks {
@@ -64,13 +60,9 @@
   white-space: nowrap;
 }
 
-.navLink:hover {
-  color: var(--color-text-primary);
-}
+.navLink:hover { color: var(--color-text-primary); }
 
-.navLinkActive {
-  color: var(--color-text-primary);
-}
+.navLinkActive { color: var(--color-text-primary); }
 
 .activeBar {
   position: absolute;
@@ -80,38 +72,6 @@
   height: 2px;
   background-color: var(--color-accent);
   border-radius: var(--radius-full);
-}
-
-/* ── Desktop actions ────────────────────────────────── */
-.actions {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-  flex-shrink: 0;
-}
-
-.adminBtn {
-  display: inline-flex;
-  align-items: center;
-  height: 36px;
-  padding: 0 var(--sp-5);
-  background-color: var(--color-accent);
-  color: var(--color-text-inverse);
-  font-size: var(--text-sm);
-  font-weight: 700;
-  border-radius: var(--radius-md);
-  letter-spacing: 0.01em;
-  transition:
-    background-color var(--ease-fast),
-    transform var(--ease-fast),
-    box-shadow var(--ease-fast);
-  white-space: nowrap;
-}
-
-.adminBtn:hover {
-  background-color: var(--color-accent-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-accent);
 }
 
 /* ── Hamburger ──────────────────────────────────────── */
@@ -128,9 +88,7 @@
   transition: background-color var(--ease-fast);
 }
 
-.hamburger:hover {
-  background-color: var(--color-bg-elevated);
-}
+.hamburger:hover { background-color: var(--color-bg-elevated); }
 
 .bar {
   display: block;
@@ -144,7 +102,7 @@
   transform-origin: center;
 }
 
-/* Hamburger → X animation */
+/* Hamburger → X transition */
 .hamburgerOpen .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .hamburgerOpen .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .hamburgerOpen .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
@@ -158,18 +116,23 @@
   width: min(320px, 100vw);
   background-color: var(--color-bg-surface);
   border-left: 1px solid var(--color-border);
-  padding: var(--sp-8) var(--sp-6);
+  padding: var(--sp-6);
   z-index: 199;
   overflow-y: auto;
   transform: translateX(100%);
   transition: transform var(--ease-base);
   display: flex;
   flex-direction: column;
-  gap: var(--sp-6);
+  gap: var(--sp-2);
 }
 
-.drawerOpen {
-  transform: translateX(0);
+.drawerOpen { transform: translateX(0); }
+
+/* Logo inside drawer */
+.drawerHeader {
+  padding-bottom: var(--sp-6);
+  border-bottom: 1px solid var(--color-border-subtle);
+  margin-bottom: var(--sp-2);
 }
 
 .drawerLinks {
@@ -194,29 +157,7 @@
   padding-left: var(--sp-3);
 }
 
-.drawerLinkActive {
-  color: var(--color-accent);
-}
-
-.drawerAdminBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 52px;
-  background-color: var(--color-accent);
-  color: var(--color-text-inverse);
-  font-family: var(--font-heading);
-  font-size: var(--text-lg);
-  letter-spacing: 0.05em;
-  border-radius: var(--radius-md);
-  margin-top: auto;
-  transition: background-color var(--ease-fast), transform var(--ease-fast);
-}
-
-.drawerAdminBtn:hover {
-  background-color: var(--color-accent-hover);
-  transform: translateY(-1px);
-}
+.drawerLinkActive { color: var(--color-accent); }
 
 /* ── Backdrop ───────────────────────────────────────── */
 .backdrop {
@@ -229,14 +170,13 @@
   cursor: pointer;
 }
 
-/* ── Responsive breakpoints ─────────────────────────── */
+/* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 900px) {
   .desktopLinks { display: none; }
-  .actions { display: none; }
-  .hamburger { display: flex; }
+  .hamburger    { display: flex; }
 }
 
 @media (min-width: 901px) {
-  .drawer { display: none; }
+  .drawer   { display: none; }
   .backdrop { display: none; }
 }

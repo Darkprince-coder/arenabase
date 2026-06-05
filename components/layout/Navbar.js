@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Logo from '@/components/ui/Logo';
 import styles from './Navbar.module.css';
 
 const NAV_LINKS = [
@@ -15,8 +16,8 @@ const NAV_LINKS = [
 ];
 
 export default function Navbar() {
-  const pathname   = usePathname();
-  const [open, setOpen]       = useState(false);
+  const pathname = usePathname();
+  const [open, setOpen]         = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef(null);
 
@@ -58,8 +59,12 @@ export default function Navbar() {
           aria-label="Main navigation"
         >
           {/* ── Logo ──────────────────────────────── */}
-          <Link href="/" className={styles.logo} aria-label="ARENABASE — go to homepage">
-            ARENA<span className={styles.logoAccent}>BASE</span>
+          <Link
+            href="/"
+            className={styles.logoLink}
+            aria-label="ARENABASE — go to homepage"
+          >
+            <Logo size="md" />
           </Link>
 
           {/* ── Desktop Links ─────────────────────── */}
@@ -72,18 +77,13 @@ export default function Navbar() {
                   aria-current={isActive(href) ? 'page' : undefined}
                 >
                   {label}
-                  {isActive(href) && <span className={styles.activeBar} aria-hidden="true" />}
+                  {isActive(href) && (
+                    <span className={styles.activeBar} aria-hidden="true" />
+                  )}
                 </Link>
               </li>
             ))}
           </ul>
-
-          {/* ── Desktop Actions ───────────────────── */}
-          <div className={styles.actions}>
-            <Link href="/admin" className={styles.adminBtn}>
-              Admin Login
-            </Link>
-          </div>
 
           {/* ── Hamburger ─────────────────────────── */}
           <button
@@ -109,6 +109,11 @@ export default function Navbar() {
         role="dialog"
         aria-label="Navigation menu"
       >
+        {/* Logo inside drawer */}
+        <div className={styles.drawerHeader}>
+          <Logo size="sm" />
+        </div>
+
         <ul className={styles.drawerLinks} role="list">
           {NAV_LINKS.map(({ href, label }) => (
             <li key={href}>
@@ -123,14 +128,6 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
-
-        <Link
-          href="/admin"
-          className={styles.drawerAdminBtn}
-          tabIndex={open ? 0 : -1}
-        >
-          Admin Login
-        </Link>
       </div>
 
       {/* ── Backdrop ────────────────────────────────── */}
