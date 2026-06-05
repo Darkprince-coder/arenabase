@@ -1,0 +1,14 @@
+/* ── Announcements + Results side-by-side ───────────── */
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-6);
+  padding-block: var(--section-gap);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+@media (max-width: 860px) {
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,33 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.placeholder {
+  background: var(--color-bg-elevated);
+  color: var(--color-text-muted);
+  font-weight: 700;
+}
+
+.image {
+  background: var(--color-bg-elevated);
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.initials {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
