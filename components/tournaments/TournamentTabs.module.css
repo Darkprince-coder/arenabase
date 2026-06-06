@@ -1,0 +1,8 @@
+.tabs { display: flex; align-items: center; gap: 0; border-bottom: 1px solid var(--color-border); transition: opacity var(--ease-fast); overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tabs.pending { opacity: 0.6; pointer-events: none; }
+.tab { position: relative; display: inline-flex; align-items: center; height: 52px; padding: 0 var(--sp-6); font-size: var(--text-sm); font-weight: 500; color: var(--color-text-muted); background: transparent; border: none; cursor: pointer; white-space: nowrap; transition: color var(--ease-fast); flex-shrink: 0; }
+.tab:hover { color: var(--color-text-primary); }
+.tabActive { color: var(--color-text-primary); font-weight: 700; }
+.activeBar { position: absolute; bottom: -1px; left: var(--sp-6); right: var(--sp-6); height: 2px; background: var(--color-accent); border-radius: var(--radius-full); }
+@media (max-width: 480px) { .tab { padding: 0 var(--sp-4); font-size: var(--text-sm); } }
