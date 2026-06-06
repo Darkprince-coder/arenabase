@@ -1,0 +1,113 @@
+/* ── Accent colour maps ─────────────────────────────── */
+.green  { --c: var(--color-accent);   --bg: rgba(182,255,0,0.08);   --border: rgba(182,255,0,0.18); }
+.yellow { --c: var(--color-warning);  --bg: rgba(255,184,0,0.08);   --border: rgba(255,184,0,0.18); }
+.blue   { --c: #4B9EFF;               --bg: rgba(75,158,255,0.08);  --border: rgba(75,158,255,0.18); }
+.orange { --c: #FF8C42;               --bg: rgba(255,140,66,0.08);  --border: rgba(255,140,66,0.18); }
+
+/* ── Link wrapper ───────────────────────────────────── */
+.linkWrap {
+  display: block;
+  text-decoration: none;
+  border-radius: var(--radius-lg);
+}
+
+/* ── Card ───────────────────────────────────────────── */
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-5) var(--sp-6);
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition:
+    border-color var(--ease-fast),
+    background-color var(--ease-fast),
+    transform var(--ease-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle top accent bar */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--c);
+  opacity: 0.5;
+}
+
+.linkWrap:hover .card {
+  border-color: var(--c);
+  background: var(--bg);
+  transform: translateY(-2px);
+}
+
+.linkWrap:hover .card::before {
+  opacity: 1;
+}
+
+/* ── Icon wrapper ───────────────────────────────────── */
+.iconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--c);
+  transition: background var(--ease-fast);
+}
+
+/* ── Body ───────────────────────────────────────────── */
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.value {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  color: var(--color-text-primary);
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.note {
+  font-size: var(--text-xs);
+  color: var(--c);
+  font-weight: 600;
+}
+
+/* ── Arrow icon ─────────────────────────────────────── */
+.arrow {
+  color: var(--color-text-muted);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity var(--ease-fast),
+    transform var(--ease-fast);
+  flex-shrink: 0;
+}
+
+.linkWrap:hover .arrow {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--c);
+}

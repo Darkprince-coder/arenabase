@@ -1,0 +1,37 @@
+/* ── Admin shell: sidebar | main ─────────────────────── */
+/*
+ * The root layout adds padding-top: var(--navbar-height) to <body>,
+ * so this shell starts right below the public navbar.
+ * min-height accounts for that so the sidebar fills the remaining viewport.
+ */
+.shell {
+  display: flex;
+  min-height: calc(100vh - var(--navbar-height));
+  background: var(--color-bg-primary);
+}
+
+/* ── Main content area ──────────────────────────────── */
+.main {
+  flex: 1;
+  min-width: 0;        /* prevent flex blowout */
+  overflow-x: hidden;
+}
+
+.content {
+  padding: var(--sp-8) var(--sp-10) var(--sp-16);
+  max-width: 1080px;
+  width: 100%;
+}
+
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .content {
+    padding: var(--sp-6) var(--sp-6) var(--sp-12);
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: var(--sp-5) var(--sp-4) var(--sp-10);
+  }
+}
