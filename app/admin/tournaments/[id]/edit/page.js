@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase'
 import AdminFormLayout from '@/components/admin/AdminFormLayout'
 import TournamentForm from '@/components/admin/TournamentForm'
-import DeleteTournamentButton from '@/components/admin/DeleteTournamentButton'
+import DeleteButton from '@/components/admin/DeleteButton'
 import { updateTournament, deleteTournament } from '../../actions'
 import styles from './page.module.css'
 
@@ -47,10 +47,7 @@ export default async function EditTournamentPage({ params }) {
         </div>
 
         {/* Client component handles the confirm dialog */}
-        <DeleteTournamentButton
-          action={deleteAction}
-          tournamentName={tournament.name}
-        />
+        <DeleteButton action={deleteAction} itemName={tournament.name} />
       </div>
     </AdminFormLayout>
   )

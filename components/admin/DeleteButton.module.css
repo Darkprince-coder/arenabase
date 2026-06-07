@@ -4,7 +4,7 @@
   height: 42px;
   padding: 0 var(--sp-5);
   background: transparent;
-  border: 1px solid rgba(255, 59, 48, 0.40);
+  border: 1px solid rgba(255, 59, 48, 0.38);
   border-radius: var(--radius-md);
   color: var(--color-live);
   font-family: var(--font-body);
@@ -12,11 +12,11 @@
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
+  flex-shrink: 0;
   transition:
     background-color var(--ease-fast),
     border-color var(--ease-fast),
     transform var(--ease-fast);
-  flex-shrink: 0;
 }
 
 .btn:hover {
