@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
 import AdminSidebar from '@/components/admin/AdminSidebar'
 import styles from './layout.module.css'
@@ -26,9 +25,11 @@ export default async function AdminLayout({ children }) {
   const supabase = await createSupabaseServerClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  if (!user) {
-    redirect('/admin/login')
-  }
+  // No user → just render children (middleware already redirects protected routes).
+// Returning early here prevents a redirect loop on /admin/login itself.
+if (!user) {
+  return <>{children}</>
+}
 
   return (
     <div className={styles.shell}>
