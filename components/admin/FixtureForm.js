@@ -75,24 +75,22 @@ function Field({ label, htmlFor, required, children }) {
 
 /* ── Select wrapper ─────────────────────────────────── */
 function Select({ id, name, value, onChange, children, required, disabled }) {
+  // Use controlled `value` only when onChange is provided,
+  // otherwise fall back to uncontrolled `defaultValue`
+  const valueProps = onChange
+    ? { value, onChange }
+    : { defaultValue: value }
+
   return (
     <div className={styles.selectWrapper}>
-      <select
-        id={id}
-        name={name}
-        value={value}
-        onChange={onChange}
-        className={styles.select}
-        required={required}
-        disabled={disabled}
-      >
+      <select id={id} name={name} {...valueProps}
+        className={styles.select} required={required} disabled={disabled}>
         {children}
       </select>
       <ChevronIcon />
     </div>
   )
 }
-
 /* ══════════════════════════════════════════════════════
    FixtureForm
    ══════════════════════════════════════════════════════
