@@ -154,7 +154,7 @@ ol {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  font-weight: 400;          /* Anton is inherently display weight */
+  font-weight: 400;
   line-height: 1.05;
   letter-spacing: 0.02em;
 }
@@ -185,10 +185,8 @@ h1, h2, h3, h4, h5, h6 {
   padding-inline: var(--page-padding);
 }
 
-/* Accent text — used globally */
 .accent { color: var(--color-accent); }
 
-/* Screen-reader only */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -201,33 +199,57 @@ h1, h2, h3, h4, h5, h6 {
   border-width: 0;
 }
 
-/* Section spacing */
 .section {
   padding-block: var(--section-gap);
 }
 
-/* Live pulse animation — used on live indicators */
+/* =====================================================
+   ANIMATIONS & KEYFRAMES
+   ===================================================== */
+
+/* Live pulse — used on live match indicators */
 @keyframes pulse-live {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.4; }
 }
 
-/* Fade-up entrance — used on page sections */
+/* Fade up — used by .fadeUp utility class & page entrance */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.fadeUp {
-  animation: fadeUp 0.5s ease forwards;
+/* Fade in — used for page-level entrance */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-/* Skeleton loader shimmer */
+/* Slide in from left */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Skeleton shimmer */
 @keyframes shimmer {
   0%   { background-position: -600px 0; }
   100% { background-position: 600px 0; }
 }
 
+/* ── Utility classes ─────────────────────────────── */
+
+.fadeUp {
+  animation: fadeUp 0.5s ease forwards;
+}
+
+/* ── Page-level entrance ─────────────────────────── */
+/* Every route change: main content fades up subtly  */
+#main-content {
+  animation: fadeUp 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Skeleton loader shimmer ─────────────────────── */
 .skeleton {
   background: linear-gradient(
     90deg,
@@ -238,4 +260,25 @@ h1, h2, h3, h4, h5, h6 {
   background-size: 600px 100%;
   animation: shimmer 1.5s infinite linear;
   border-radius: var(--radius-sm);
+}
+
+/* =====================================================
+   REDUCED MOTION
+   Disable all non-essential animations for users who
+   have requested reduced motion in their OS settings.
+   The skeleton shimmer and live-pulse are kept as they
+   convey state (loading / live) rather than decoration.
+   ===================================================== */
+@media (prefers-reduced-motion: reduce) {
+  #main-content {
+    animation: none;
+  }
+
+  .fadeUp {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  /* FadeIn component variants — handled in FadeIn.module.css */
 }

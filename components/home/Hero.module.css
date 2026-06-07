@@ -5,15 +5,13 @@
   display: flex;
   flex-direction: column;
   min-height: calc(88vh - var(--navbar-height));
-  /* Stadium-light ambient glow from upper-right */
   background:
     radial-gradient(ellipse 55% 60% at 90% 5%,  rgba(182,255,0,0.09) 0%, transparent 100%),
     radial-gradient(ellipse 40% 40% at 10% 95%, rgba(182,255,0,0.03) 0%, transparent 100%),
     var(--color-bg-primary);
 }
 
-/* Optional hero background image:
-   Add /public/hero-bg.jpg and it will fade in automatically */
+/* Optional hero background image */
 .hero::before {
   content: '';
   position: absolute;
@@ -26,11 +24,28 @@
   z-index: 0;
 }
 
+/* ── Bottom fade — smooths bg image into the next section ── */
+/* Sits above the bg image (z-index 1) but below content (z-index 2) */
+.heroFade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 220px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--color-bg-primary) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* ── Content grid ───────────────────────────────────── */
 .heroInner {
   flex: 1;
   position: relative;
-  z-index: 1;
+  z-index: 2; /* above heroFade */
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--sp-12);
@@ -143,8 +158,9 @@
 }
 
 /* ── Right: featured card ───────────────────────────── */
+/* FadeIn wraps this — it needs to be a flex container itself */
 .visual {
-  display: flex;
+  display: flex !important; /* override FadeIn default block */
   justify-content: center;
   align-items: center;
 }
@@ -276,16 +292,17 @@
 /* ── Stats strip ────────────────────────────────────── */
 .statsStrip {
   position: relative;
-  z-index: 1;
+  z-index: 2; /* above heroFade */
   display: flex;
   align-items: center;
   padding-block: var(--sp-8);
   border-top: 1px solid var(--color-border);
 }
 
+/* FadeIn wraps each statItem — make it flex so it fills the strip */
 .statItem {
-  flex: 1;
-  display: flex;
+  flex: 1 !important; /* override FadeIn default */
+  display: flex !important;
   flex-direction: column;
   gap: var(--sp-2);
   padding-inline: var(--sp-8);
@@ -324,7 +341,7 @@
     grid-template-columns: 1fr;
     padding-block: var(--sp-16) var(--sp-12);
   }
-  .visual { display: none; }
+  .visual { display: none !important; }
 }
 
 @media (max-width: 600px) {

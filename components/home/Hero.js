@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import TeamLogo from '@/components/ui/TeamLogo';
+import FadeIn from '@/components/ui/FadeIn';
+import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { formatMatchDate, formatKickoffTime } from '@/lib/utils';
 import styles from './Hero.module.css';
 
@@ -41,7 +43,6 @@ function FeaturedMatchCard({ fixture }) {
 
   return (
     <article className={styles.featuredCard}>
-      {/* Accent top border */}
       <div className={styles.featuredAccent} aria-hidden="true" />
 
       <header className={styles.featuredHeader}>
@@ -54,7 +55,6 @@ function FeaturedMatchCard({ fixture }) {
         )}
       </header>
 
-      {/* Teams */}
       <div className={styles.featuredTeams}>
         <div className={styles.featuredTeam}>
           <TeamLogo team={home_team} size={56} />
@@ -67,14 +67,9 @@ function FeaturedMatchCard({ fixture }) {
         </div>
       </div>
 
-      {/* Match info */}
       <footer className={styles.featuredInfo}>
-        <span className={styles.featuredDate}>
-          {formatMatchDate(kickoff_time)}
-        </span>
-        <span className={styles.featuredTime}>
-          {formatKickoffTime(kickoff_time)}
-        </span>
+        <span className={styles.featuredDate}>{formatMatchDate(kickoff_time)}</span>
+        <span className={styles.featuredTime}>{formatKickoffTime(kickoff_time)}</span>
         {venue?.name && (
           <span className={styles.featuredVenue}>
             <LocationIcon />{venue.name}
@@ -91,50 +86,63 @@ export default function Hero({ stats, nextFixture }) {
 
   return (
     <section className={styles.hero} aria-labelledby="hero-heading">
+      {/* Bottom fade overlay — smooths bg image into next section */}
+      <div className={styles.heroFade} aria-hidden="true" />
+
       {/* ── Content row ─────────────────────────────── */}
       <div className={`${styles.heroInner} container`}>
 
         {/* Left: text content */}
         <div className={styles.content}>
-          <p className={styles.eyebrow} aria-hidden="true">
-            <span className={styles.eyebrowDot} />
-            Kajiado · Kenya
-          </p>
+          <FadeIn variant="up" delay={0}>
+            <p className={styles.eyebrow} aria-hidden="true">
+              <span className={styles.eyebrowDot} />
+              Kajiado · Kenya
+            </p>
+          </FadeIn>
 
-          <h1 id="hero-heading" className={styles.headline}>
-            <span className={styles.lineWhite}>LOCAL SPORTS.</span>
-            <span className={styles.lineGreen}>ONE PLATFORM.</span>
-          </h1>
+          <FadeIn variant="up" delay={80}>
+            <h1 id="hero-heading" className={styles.headline}>
+              <span className={styles.lineWhite}>LOCAL SPORTS.</span>
+              <span className={styles.lineGreen}>ONE PLATFORM.</span>
+            </h1>
+          </FadeIn>
 
-          <p className={styles.subtext}>
-            Fixtures, results, tournaments and announcements from your local
-            sports community. Never miss a match again.
-          </p>
+          <FadeIn variant="up" delay={160}>
+            <p className={styles.subtext}>
+              Fixtures, results, tournaments and announcements from your local
+              sports community. Never miss a match again.
+            </p>
+          </FadeIn>
 
-          <div className={styles.ctas}>
-            <Link href="/fixtures" className={styles.ctaPrimary}>
-              <CalendarIcon />
-              View Fixtures
-            </Link>
-            <Link href="/tournaments" className={styles.ctaOutline}>
-              <TrophyIcon />
-              Explore Tournaments
-            </Link>
-          </div>
+          <FadeIn variant="up" delay={240}>
+            <div className={styles.ctas}>
+              <Link href="/fixtures" className={styles.ctaPrimary}>
+                <CalendarIcon />
+                View Fixtures
+              </Link>
+              <Link href="/tournaments" className={styles.ctaOutline}>
+                <TrophyIcon />
+                Explore Tournaments
+              </Link>
+            </div>
+          </FadeIn>
         </div>
 
-        {/* Right: featured match card — hidden on mobile */}
+        {/* Right: featured match card */}
         {nextFixture && (
-          <div className={styles.visual}>
+          <FadeIn variant="scale" delay={200} className={styles.visual}>
             <FeaturedMatchCard fixture={nextFixture} />
-          </div>
+          </FadeIn>
         )}
       </div>
 
       {/* ── Stats strip ─────────────────────────────── */}
       <div className={`${styles.statsStrip} container`} aria-label="Platform statistics">
-        <div className={styles.statItem}>
-          <span className={styles.statValue}>{fixturesCount}+</span>
+        <FadeIn variant="up" delay={0} className={styles.statItem}>
+          <span className={styles.statValue}>
+            <AnimatedCounter target={fixturesCount} suffix="+" />
+          </span>
           <span className={styles.statLabel}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -142,12 +150,14 @@ export default function Hero({ stats, nextFixture }) {
             </svg>
             Fixtures Published
           </span>
-        </div>
+        </FadeIn>
 
         <div className={styles.statDivider} aria-hidden="true" />
 
-        <div className={styles.statItem}>
-          <span className={styles.statValue}>{tournamentsCount}</span>
+        <FadeIn variant="up" delay={80} className={styles.statItem}>
+          <span className={styles.statValue}>
+            <AnimatedCounter target={tournamentsCount} />
+          </span>
           <span className={styles.statLabel}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -156,12 +166,14 @@ export default function Hero({ stats, nextFixture }) {
             </svg>
             Active Tournaments
           </span>
-        </div>
+        </FadeIn>
 
         <div className={styles.statDivider} aria-hidden="true" />
 
-        <div className={styles.statItem}>
-          <span className={styles.statValue}>{teamsCount}+</span>
+        <FadeIn variant="up" delay={160} className={styles.statItem}>
+          <span className={styles.statValue}>
+            <AnimatedCounter target={teamsCount} suffix="+" />
+          </span>
           <span className={styles.statLabel}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -171,7 +183,7 @@ export default function Hero({ stats, nextFixture }) {
             </svg>
             Teams &amp; Growing
           </span>
-        </div>
+        </FadeIn>
       </div>
     </section>
   );

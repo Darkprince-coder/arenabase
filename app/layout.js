@@ -2,6 +2,7 @@ import { Anton, Inter } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import ScrollToTop from '@/components/ui/ScrollToTop';
 
 /* -- Fonts ------------------------------------ */
 const anton = Anton({
@@ -17,7 +18,7 @@ const inter = Inter({
   display: 'swap',
 });
 
-/* ── Default Metadata (overridden per-page) ─────────── */
+/* ── Default Metadata ───────────────────────────────── */
 export const metadata = {
   title: {
     default: 'ARENABASE | Local Sports. One Platform.',
@@ -42,7 +43,7 @@ export const metadata = {
     siteName: 'ARENABASE',
     images: [
       {
-        url: '/og-image.jpg',      // Add a 1200x630 image to /public
+        url: '/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'ARENABASE — Local Sports. One Platform.',
@@ -74,7 +75,7 @@ export const metadata = {
     apple: '/apple-touch-icon.png',
   },
   verification: {
-    google: '',   // ← Paste your Google Search Console verification token here
+    google: '',
   },
 };
 
@@ -86,6 +87,8 @@ export default function RootLayout({ children }) {
         <Navbar />
         <main id="main-content">{children}</main>
         <Footer />
+        {/* Fixed scroll-to-top button — appears after 400px scroll */}
+        <ScrollToTop />
       </body>
     </html>
   );

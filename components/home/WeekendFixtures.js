@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import TeamLogo from '@/components/ui/TeamLogo';
 import SectionHeader from '@/components/ui/SectionHeader';
+import FadeIn from '@/components/ui/FadeIn';
 import { formatMatchDate, formatKickoffTime, getFixturesSectionLabel } from '@/lib/utils';
 import styles from './WeekendFixtures.module.css';
 
@@ -24,11 +25,10 @@ function LocationIcon() {
 
 /* ── Single match card ──────────────────────────────── */
 function MatchCard({ fixture }) {
-  const { id, home_team, away_team, venue, tournament, kickoff_time, status } = fixture;
+  const { home_team, away_team, venue, tournament, kickoff_time, status } = fixture;
 
   return (
     <article className={styles.card}>
-      {/* Card header: tournament + time */}
       <div className={styles.cardTop}>
         <span className={styles.tournamentTag}>
           {tournament?.name ?? 'Friendly'}
@@ -45,22 +45,18 @@ function MatchCard({ fixture }) {
         </span>
       </div>
 
-      {/* Teams */}
       <div className={styles.match}>
         <div className={styles.team}>
           <TeamLogo team={home_team} size={52} />
           <span className={styles.teamName}>{home_team?.name ?? '—'}</span>
         </div>
-
         <div className={styles.vsBadge} aria-hidden="true">VS</div>
-
         <div className={`${styles.team} ${styles.teamRight}`}>
           <TeamLogo team={away_team} size={52} />
           <span className={styles.teamName}>{away_team?.name ?? '—'}</span>
         </div>
       </div>
 
-      {/* Venue */}
       {venue?.name && (
         <footer className={styles.cardFooter}>
           <LocationIcon />
@@ -88,17 +84,21 @@ export default function WeekendFixtures({ fixtures = [] }) {
   return (
     <section className={styles.section} aria-labelledby="fixtures-heading">
       <div className="container">
-        <SectionHeader
-          title={label}
-          icon={<CalendarIcon />}
-          viewAllHref="/fixtures"
-          viewAllLabel="View all fixtures"
-        />
+        <FadeIn variant="left">
+          <SectionHeader
+            title={label}
+            icon={<CalendarIcon />}
+            viewAllHref="/fixtures"
+            viewAllLabel="View all fixtures"
+          />
+        </FadeIn>
 
         {fixtures.length === 0 ? (
           <div className={styles.empty}>
             <p>No upcoming fixtures scheduled yet.</p>
-            <p className={styles.emptyHint}>Check back soon — fixtures will appear here when published.</p>
+            <p className={styles.emptyHint}>
+              Check back soon — fixtures will appear here when published.
+            </p>
           </div>
         ) : (
           Object.entries(groups).map(([dateKey, dayFixtures]) => (
@@ -106,11 +106,12 @@ export default function WeekendFixtures({ fixtures = [] }) {
               <h3 className={styles.dateLabel}>
                 {formatMatchDate(dayFixtures[0].kickoff_time)}
               </h3>
-              {/* Horizontal scroll wrapper */}
               <div className={styles.cardsTrack} role="list">
-                {dayFixtures.map(f => (
+                {dayFixtures.map((f, i) => (
                   <div key={f.id} role="listitem" className={styles.cardWrap}>
-                    <MatchCard fixture={f} />
+                    <FadeIn variant="up" delay={i * 80}>
+                      <MatchCard fixture={f} />
+                    </FadeIn>
                   </div>
                 ))}
               </div>

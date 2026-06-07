@@ -20,9 +20,7 @@
   max-width: 760px;
 }
 
-.logoWrap {
-  display: flex;
-}
+.logoWrap { display: flex; }
 
 .heroTitle {
   font-family: var(--font-heading);
@@ -101,9 +99,10 @@
   gap: 0;
 }
 
+/* FadeIn wraps statItem — override to make it work in flex */
 .statItem {
-  flex: 1;
-  display: flex;
+  flex: 1 !important;
+  display: flex !important;
   flex-direction: column;
   align-items: center;
   gap: var(--sp-1);
@@ -138,11 +137,13 @@
   max-width: 800px;
 }
 
+/* FadeIn wraps each card — make card fill the wrapper */
 .featureCard {
   display: flex;
   flex-direction: column;
   gap: var(--sp-3);
   padding: var(--sp-6);
+  height: 100%;
   background: var(--color-bg-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
@@ -189,47 +190,76 @@
   font-size: var(--text-sm);
   font-weight: 700;
   color: var(--color-text-muted);
-  letter-spacing: 0.02em;
   transition: color var(--ease-fast);
 }
 
-.featureCard:hover .featureLink {
-  color: var(--color-accent);
-}
+.featureCard:hover .featureLink { color: var(--color-accent); }
 
-/* ── Social row ─────────────────────────────────────── */
-.socialRow {
+/* ── Contact buttons ────────────────────────────────── */
+.contactRow {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-3);
+  gap: var(--sp-4);
   margin-top: var(--sp-8);
+  flex-wrap: wrap;
 }
 
-.socialBtn {
+.contactBtn {
   display: inline-flex;
   align-items: center;
-  gap: var(--sp-2);
-  height: 44px;
-  padding: 0 var(--sp-5);
-  background: var(--color-bg-elevated);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  color: var(--color-text-secondary);
-  font-size: var(--text-sm);
-  font-weight: 600;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-6);
+  border-radius: var(--radius-lg);
   text-decoration: none;
+  font-weight: 600;
   transition:
-    color var(--ease-fast),
-    border-color var(--ease-fast),
-    background-color var(--ease-fast),
-    transform var(--ease-fast);
+    transform var(--ease-fast),
+    box-shadow var(--ease-fast),
+    filter var(--ease-fast);
+  min-width: 220px;
 }
 
-.socialBtn:hover {
-  color: var(--color-accent);
+.contactBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+.contactBtn span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contactBtn small {
+  font-size: var(--text-xs);
+  font-weight: 400;
+  opacity: 0.75;
+  letter-spacing: 0.02em;
+}
+
+/* WhatsApp — green brand */
+.contactBtnWhatsApp {
+  background: #25D366;
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.25);
+}
+
+.contactBtnWhatsApp:hover {
+  box-shadow: 0 8px 32px rgba(37, 211, 102, 0.4);
+  filter: brightness(1.08);
+}
+
+/* Call — outline style */
+.contactBtnCall {
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  box-shadow: none;
+}
+
+.contactBtnCall:hover {
   border-color: var(--color-accent);
-  background: var(--color-accent-dim);
-  transform: translateY(-2px);
+  color: var(--color-accent);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 
 /* ── Responsive ─────────────────────────────────────── */
@@ -242,9 +272,14 @@
   .heroTitle { font-size: var(--text-4xl); }
 
   .statsInner { flex-direction: column; gap: var(--sp-6); }
-  .statItem { border-right: none; border-bottom: 1px solid var(--color-border); padding-bottom: var(--sp-6); width: 100%; }
+  .statItem {
+    border-right: none !important;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--sp-6);
+    width: 100%;
+  }
   .statItem:last-child { border-bottom: none; padding-bottom: 0; }
 
-  .socialRow { flex-direction: column; }
-  .socialBtn { justify-content: center; }
+  .contactRow { flex-direction: column; }
+  .contactBtn { min-width: 0; width: 100%; justify-content: center; }
 }

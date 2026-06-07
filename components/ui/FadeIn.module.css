@@ -1,0 +1,28 @@
+/* ── Base: hidden until IntersectionObserver fires ── */
+.base {
+  opacity: 0;
+  transition-property: opacity, transform;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); /* spring-like ease-out */
+  will-change: opacity, transform;
+}
+
+/* ── Initial hidden transforms per variant ──────── */
+.up    { transform: translateY(28px); }
+.left  { transform: translateX(-28px); }
+.right { transform: translateX(28px); }
+.scale { transform: scale(0.94); }
+
+/* ── Revealed state ─────────────────────────────── */
+.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Respect reduced motion ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .base {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
