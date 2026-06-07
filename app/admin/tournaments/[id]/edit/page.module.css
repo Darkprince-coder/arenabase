@@ -1,0 +1,63 @@
+.dangerZone {
+  margin-top: var(--sp-10);
+  padding: var(--sp-6);
+  background: rgba(255, 59, 48, 0.04);
+  border: 1px solid rgba(255, 59, 48, 0.22);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-8);
+  flex-wrap: wrap;
+}
+
+.dangerHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  flex: 1;
+  min-width: 200px;
+}
+
+.dangerTitle {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-live);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.dangerDesc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  max-width: 480px;
+}
+
+.deleteBtn {
+  display: inline-flex;
+  align-items: center;
+  height: 42px;
+  padding: 0 var(--sp-5);
+  background: transparent;
+  border: 1px solid rgba(255, 59, 48, 0.40);
+  border-radius: var(--radius-md);
+  color: var(--color-live);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color var(--ease-fast),
+    border-color var(--ease-fast),
+    transform var(--ease-fast);
+  flex-shrink: 0;
+}
+
+.deleteBtn:hover {
+  background: rgba(255, 59, 48, 0.10);
+  border-color: var(--color-live);
+  transform: translateY(-1px);
+}

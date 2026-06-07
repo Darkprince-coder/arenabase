@@ -1,0 +1,9 @@
+/*
+ * Pushes page content below the fixed Navbar.
+ * Previously this was `padding-top: var(--navbar-height)` on `body`
+ * in globals.css. Moving it here means admin pages are unaffected.
+ */
+.main {
+  padding-top: var(--navbar-height);
+  min-height: 100dvh;
+}

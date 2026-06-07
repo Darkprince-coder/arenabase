@@ -1,10 +1,7 @@
 import { Anton, Inter } from 'next/font/google';
 import './globals.css';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
-import ScrollToTop from '@/components/ui/ScrollToTop';
 
-/* -- Fonts ------------------------------------ */
+/* -- Fonts -------------------------------------------- */
 const anton = Anton({
   weight: '400',
   subsets: ['latin'],
@@ -18,7 +15,7 @@ const inter = Inter({
   display: 'swap',
 });
 
-/* ── Default Metadata ───────────────────────────────── */
+/* ── Metadata ─────────────────────────────────────────── */
 export const metadata = {
   title: {
     default: 'ARENABASE | Local Sports. One Platform.',
@@ -79,17 +76,18 @@ export const metadata = {
   },
 };
 
-/* -- Root Layout -------------------------------- */
+/* -- Root Layout -----------------------------------------
+ * Intentionally bare — no Navbar or Footer here.
+ *
+ * Public pages  → wrapped by app/(public)/layout.js  (Navbar + Footer)
+ * Admin pages   → wrapped by app/admin/layout.js     (Admin sidebar shell)
+ *
+ * This separation prevents the public Navbar from appearing in the admin.
+ * -------------------------------------------------------- */
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${anton.variable} ${inter.variable}`}>
-      <body>
-        <Navbar />
-        <main id="main-content">{children}</main>
-        <Footer />
-        {/* Fixed scroll-to-top button — appears after 400px scroll */}
-        <ScrollToTop />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

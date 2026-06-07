@@ -1,0 +1,26 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  height: 42px;
+  padding: 0 var(--sp-5);
+  background: transparent;
+  border: 1px solid rgba(255, 59, 48, 0.40);
+  border-radius: var(--radius-md);
+  color: var(--color-live);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color var(--ease-fast),
+    border-color var(--ease-fast),
+    transform var(--ease-fast);
+  flex-shrink: 0;
+}
+
+.btn:hover {
+  background: rgba(255, 59, 48, 0.10);
+  border-color: var(--color-live);
+  transform: translateY(-1px);
+}
