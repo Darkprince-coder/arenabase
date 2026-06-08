@@ -4,7 +4,8 @@ import WeekendFixtures from '@/components/home/WeekendFixtures';
 import LatestAnnouncements from '@/components/home/LatestAnnouncements';
 import LatestResults from '@/components/home/LatestResults';
 import ActiveTournaments from '@/components/home/ActiveTournaments';
-import NewsletterBanner from '@/components/ui/NewsletterBanner';
+import ForOrganisers from '@/components/home/ForOrganisers';
+/* import NewsletterBanner from '@/components/ui/NewsletterBanner'; */
 import styles from './page.module.css';
 
 /* ISR: revalidate this page every 60 seconds */
@@ -107,10 +108,10 @@ async function getPageData() {
   ]);
 
   return {
-    fixtures:     fixturesData     ?? [],
-    results:      resultsData      ?? [],
-    announcements:announcementsData ?? [],
-    tournaments:  tournamentsData  ?? [],
+    fixtures:      fixturesData      ?? [],
+    results:       resultsData       ?? [],
+    announcements: announcementsData ?? [],
+    tournaments:   tournamentsData   ?? [],
     stats: {
       fixturesCount:    fixturesCount    ?? 0,
       tournamentsCount: tournamentsCount ?? 0,
@@ -149,8 +150,11 @@ export default async function HomePage() {
       {/* ── Active Tournaments ────────────────────── */}
       <ActiveTournaments tournaments={tournaments} />
 
+      {/* ── For Organisers ────────────────────────── */}
+      <ForOrganisers />
+
       {/* ── Newsletter ────────────────────────────── */}
-      <NewsletterBanner />
+      {/* <NewsletterBanner /> */}
     </>
   );
 }
