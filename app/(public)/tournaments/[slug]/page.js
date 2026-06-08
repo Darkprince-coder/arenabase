@@ -130,8 +130,8 @@ async function getTabData(tournament, activeTab) {
   return {};
 }
 
-/* ── JSON-LD ────────────────────────────────────────── */
-function buildJsonLd(tournament, fixtures = []) {
+/* ── JSON-LD: SportsEvent per fixture ───────────────── */
+function buildFixturesJsonLd(tournament, fixtures = []) {
   return {
     '@context': 'https://schema.org',
     '@graph': fixtures.map(f => ({
@@ -148,6 +148,28 @@ function buildJsonLd(tournament, fixtures = []) {
       ],
       superEvent: { '@type': 'SportsEvent', name: tournament.name },
     })),
+  };
+}
+
+/* ── JSON-LD: BreadcrumbList ────────────────────────── */
+function buildBreadcrumbJsonLd(tournament) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Tournaments',
+        item: 'https://www.arenabase.co.ke/tournaments',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: tournament.name,
+        item: `https://www.arenabase.co.ke/tournaments/${tournament.slug}`,
+      },
+    ],
   };
 }
 
@@ -192,10 +214,17 @@ export default async function TournamentDetailPage(props) {
 
   return (
     <>
+      {/* BreadcrumbList — always present, helps Google show path in search results */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildBreadcrumbJsonLd(tournament)) }}
+      />
+
+      {/* SportsEvent — only when fixtures tab is active and fixtures exist */}
       {activeTab === 'fixtures' && tabData.fixtures?.length > 0 && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd(tournament, tabData.fixtures)) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildFixturesJsonLd(tournament, tabData.fixtures)) }}
         />
       )}
 

@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase';
 const BASE_URL = 'https://www.arenabase.co.ke';
 
 export default async function sitemap() {
-  /* ── Static routes ──────────────────────────────── */
+  /* ── Static routes ──────────────────────────────────── */
   const staticRoutes = [
     { path: '',                changeFrequency: 'daily',   priority: 1.0 },
     { path: '/fixtures',       changeFrequency: 'daily',   priority: 0.9 },
@@ -18,7 +18,13 @@ export default async function sitemap() {
     priority,
   }));
 
-  /* ── Dynamic tournament routes ──────────────────── */
+  /* ── Dynamic tournament routes ──────────────────────── */
+  /*
+   * Tournament pages are the highest-value SEO target — someone searching
+   * "Kajiado Super Cup fixtures" should land directly on the tournament page.
+   * Priority 0.85 — higher than the announcements list but below the
+   * top-level fixtures/results pages.
+   */
   let tournamentRoutes = [];
   try {
     const { data: tournaments } = await supabase
@@ -26,7 +32,7 @@ export default async function sitemap() {
       .select('slug, updated_at')
       .order('updated_at', { ascending: false });
 
-    tournamentRoutes = (tournaments || []).map((t) => ({
+    tournamentRoutes = (tournaments ?? []).map((t) => ({
       url: `${BASE_URL}/tournaments/${t.slug}`,
       lastModified: new Date(t.updated_at),
       changeFrequency: 'daily',
@@ -36,5 +42,30 @@ export default async function sitemap() {
     // Supabase unavailable at build time — static routes still generated
   }
 
-  return [...staticRoutes, ...tournamentRoutes];
+  /* ── Dynamic announcement routes ───────────────────── */
+  /*
+   * Individual announcement pages are indexable — a search for
+   * "Kajiado Super Cup venue change" might land on a specific announcement.
+   * Priority 0.6 — useful but secondary to tournament and list pages.
+   * changeFrequency: monthly because announcements don't change after publish.
+   */
+  let announcementRoutes = [];
+  try {
+    const { data: announcements } = await supabase
+      .from('announcements')
+      .select('slug, published_at')
+      .eq('is_published', true)
+      .order('published_at', { ascending: false });
+
+    announcementRoutes = (announcements ?? []).map((a) => ({
+      url: `${BASE_URL}/announcements/${a.slug}`,
+      lastModified: new Date(a.published_at),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    }));
+  } catch {
+    // Supabase unavailable at build time — fail gracefully
+  }
+
+  return [...staticRoutes, ...tournamentRoutes, ...announcementRoutes];
 }

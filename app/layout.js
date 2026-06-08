@@ -1,4 +1,6 @@
 import { Anton, Inter } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 
 /* -- Fonts -------------------------------------------- */
@@ -71,23 +73,48 @@ export const metadata = {
     icon: '/favicon.ico',
     apple: '/apple-touch-icon.png',
   },
+  /*
+   * Google Search Console verification.
+   * 1. Go to search.google.com/search-console
+   * 2. Add property → URL prefix → https://www.arenabase.co.ke
+   * 3. Choose "HTML tag" verification method
+   * 4. Copy the content value from the meta tag (the part after content=)
+   * 5. Set in .env.local: NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=your_token_here
+   * 6. Add same key to Vercel environment variables
+   */
   verification: {
-    google: '',
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ?? '',
   },
 };
 
 /* -- Root Layout -----------------------------------------
  * Intentionally bare — no Navbar or Footer here.
  *
- * Public pages  → wrapped by app/(public)/layout.js  (Navbar + Footer)
+ * Public pages  → wrapped by app/(public)/layout.js  (Navbar + Footer + Analytics)
  * Admin pages   → wrapped by app/admin/layout.js     (Admin sidebar shell)
  *
- * This separation prevents the public Navbar from appearing in the admin.
+ * Vercel Analytics and Speed Insights live here (root) so they capture
+ * performance data across all routes including admin — useful for diagnosing
+ * any slow server-side renders on admin pages.
  * -------------------------------------------------------- */
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${anton.variable} ${inter.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        {/*
+         * Vercel Analytics — tracks page views, Web Vitals, and geography.
+         * Works out of the box on Vercel. Zero config.
+         * Dashboard: vercel.com → your project → Analytics tab.
+         */}
+        <Analytics />
+        {/*
+         * Vercel Speed Insights — Core Web Vitals per route.
+         * Shows LCP, FID, CLS, TTFB broken down by page.
+         * Dashboard: vercel.com → your project → Speed Insights tab.
+         */}
+        <SpeedInsights />
+      </body>
     </html>
   );
 }

@@ -42,8 +42,8 @@ export async function generateMetadata({ params }) {
   };
 }
 
-/* ── JSON-LD (Article schema) ───────────────────────── */
-function buildJsonLd(announcement) {
+/* ── JSON-LD: Article schema ────────────────────────── */
+function buildArticleJsonLd(announcement) {
   return {
     '@context': 'https://schema.org',
     '@type':    'Article',
@@ -61,6 +61,41 @@ function buildJsonLd(announcement) {
         name:    announcement.tournament.name,
       },
     }),
+  };
+}
+
+/* ── JSON-LD: BreadcrumbList ────────────────────────── */
+function buildBreadcrumbJsonLd(announcement) {
+  const crumbs = [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Announcements',
+      item: 'https://www.arenabase.co.ke/announcements',
+    },
+  ];
+
+  /* If the announcement is tournament-scoped, add a mid-level crumb */
+  if (announcement.tournament?.name && announcement.tournament?.slug) {
+    crumbs.push({
+      '@type': 'ListItem',
+      position: 2,
+      name: announcement.tournament.name,
+      item: `https://www.arenabase.co.ke/announcements?tournament=${announcement.tournament.slug}`,
+    });
+  }
+
+  crumbs.push({
+    '@type': 'ListItem',
+    position: crumbs.length + 1,
+    name: announcement.title,
+    item: `https://www.arenabase.co.ke/announcements/${announcement.slug}`,
+  });
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs,
   };
 }
 
@@ -125,10 +160,16 @@ export default async function AnnouncementDetailPage(props) {
 
   return (
     <>
-      {/* JSON-LD */}
+      {/* BreadcrumbList — shown in Google search results as path */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd(announcement)) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildBreadcrumbJsonLd(announcement)) }}
+      />
+
+      {/* Article schema — helps Google understand the content type */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildArticleJsonLd(announcement)) }}
       />
 
       {/* ── Header ──────────────────────────────── */}
