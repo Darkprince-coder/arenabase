@@ -103,8 +103,8 @@ export default function Hero({ stats, nextFixture }) {
 
           <FadeIn variant="up" delay={80}>
             <h1 id="hero-heading" className={styles.headline}>
-              <span className={styles.lineWhite}>LOCAL SPORTS.</span>
-              <span className={styles.lineGreen}>ONE PLATFORM.</span>
+              <span className={styles.lineWhite}>KAJIADO FOOTBALL.</span>
+              <span className={styles.lineGreen}>FRONT AND CENTRE.</span>
             </h1>
           </FadeIn>
 
