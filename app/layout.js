@@ -83,7 +83,7 @@ export const metadata = {
    * 6. Add same key to Vercel environment variables
    */
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ?? '',
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || process.env.GOOGLE_SITE_VERIFICATION || '',
   },
 };
 
