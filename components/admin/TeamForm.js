@@ -3,6 +3,7 @@
 import { useState, useEffect, useActionState } from 'react'
 import { slugify } from '@/lib/utils'
 import { img } from '@/lib/cloudinary'
+import ImageUpload from './ImageUpload'
 import styles from './TeamForm.module.css'
 
 /* ── Icons ──────────────────────────────────────────── */
@@ -140,17 +141,13 @@ export default function TeamForm({ action, initialData = null }) {
           <Field
             label="Team Logo"
             htmlFor="t-logo"
-            hint="Cloudinary public ID — upload via Cloudinary dashboard first"
+            hint="Upload a team logo — stored in Cloudinary under arenabase/teams/{slug}"
           >
-            <input
-              id="t-logo"
+            <ImageUpload
               name="logo_public_id"
-              type="text"
-              value={logoId}
-              onChange={e => setLogoId(e.target.value)}
-              className={styles.input}
-              placeholder="arenabase/teams/kimana-all-stars"
-              disabled={isPending}
+              folder={slug ? `teams/${slug}` : 'teams'}
+              initial={initialData?.logo_public_id}
+              onChange={id => setLogoId(id ?? '')}
             />
 
             {/* Logo preview */}

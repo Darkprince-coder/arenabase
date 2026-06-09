@@ -58,6 +58,8 @@ without exposing your API secret. This is the standard Cloudinary approach for w
 > - `arenabase/teams/` — team logos
 > - `arenabase/tournaments/` — tournament banners
 
+> Note: Cloudinary automatically creates subfolders when you include a `folder` field in the upload request. Our admin uploads pass `folder: "tournaments/{slug}"` or `folder: "teams/{slug}"` (the `arenabase/` prefix is added by the unsigned preset or by the client). You do not need to create these folders manually in the Cloudinary dashboard.
+
 ---
 
 ## Step 4 — Folder Structure Convention

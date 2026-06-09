@@ -3,6 +3,7 @@
 import { useState, useEffect, useActionState } from 'react'
 import { slugify } from '@/lib/utils'
 import styles from './TournamentForm.module.css'
+import ImageUpload from './ImageUpload'
 
 /* ── Inline icons ───────────────────────────────────── */
 function ChevronIcon() {
@@ -167,16 +168,12 @@ export default function TournamentForm({ action, initialData = null }) {
               htmlFor="t-banner"
               hint="Cloudinary public ID (optional)"
             >
-              <input
-                id="t-banner"
+              <ImageUpload
                 name="banner_public_id"
-                type="text"
-                className={styles.input}
-                placeholder="arenabase/tournaments/kajiado-super-cup"
-                defaultValue={initialData?.banner_public_id ?? ''}
-                disabled={isPending}
+                folder={slug ? `tournaments/${slug}` : 'tournaments'}
+                initial={initialData?.banner_public_id}
               />
-              {initialData?.banner_public_id && (
+              {initialData?.banner_public_id && !initialData?.banner_public_id.startsWith('arenabase') && (
                 <p className={styles.bannerNote}>
                   Current ID: <code>{initialData.banner_public_id}</code>
                 </p>
