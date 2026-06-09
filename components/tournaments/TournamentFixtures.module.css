@@ -29,5 +29,42 @@
 .emptyIcon { color: var(--color-border); margin-bottom: var(--sp-2); }
 .emptyMsg { font-size: var(--text-lg); font-weight: 600; color: var(--color-text-muted); }
 .emptyHint { font-size: var(--text-sm); color: var(--color-text-muted); opacity: 0.6; max-width: 340px; }
-@media (max-width: 860px) { .row { grid-template-columns: 90px 1fr 44px 1fr; } .meta { display: none; } }
-@media (max-width: 540px) { .row { grid-template-columns: 1fr; gap: var(--sp-3); padding: var(--sp-4); } .statusCell { flex-direction: row; align-items: center; gap: var(--sp-3); padding-bottom: var(--sp-2); border-bottom: 1px solid var(--color-border-subtle); margin-bottom: var(--sp-1); } .vs { display: none; } }
+@media (max-width: 860px) {
+	.row { grid-template-columns: 90px 1fr 44px 1fr; }
+	/* Keep the meta column visible on tablet so venue/location remains accessible */
+	.meta { display: flex; align-items: flex-end; }
+}
+@media (max-width: 540px) {
+	.row { grid-template-columns: 1fr; gap: var(--sp-3); padding: var(--sp-4); }
+	.statusCell { flex-direction: row; align-items: center; gap: var(--sp-3); padding-bottom: var(--sp-2); border-bottom: 1px solid var(--color-border-subtle); margin-bottom: var(--sp-1); }
+	.vs { display: none; }
+
+	/* On narrow screens make meta flow under the teams so venue is visible */
+	.meta { align-items: flex-start; width: 100%; margin-top: var(--sp-2); }
+	.venue { font-size: 0.7rem; margin-left: 100px; }
+
+	/* Pin the meta block to the bottom-right corner of the card so the venue
+		 remains visible without taking extra vertical space. Add padding-bottom
+		 so absolute positioning does not overlap the content. */
+	/* Give room for the absolutely positioned meta block */
+	.row { position: relative; padding-bottom: calc(var(--sp-4) + 56px); }
+
+	/* Pin meta to the far bottom-right corner, a few pixels from the card edge */
+	.meta {
+		position: absolute;
+		right: 12px; /* a few px from right border */
+		bottom: 12px; /* a few px from bottom */
+		align-items: flex-end;
+		justify-content: flex-end;
+		text-align: right;
+		pointer-events: none;
+	}
+
+	.meta .venue {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: calc(100% - 32px);
+		pointer-events: auto;
+	}
+}
