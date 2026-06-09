@@ -114,7 +114,8 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className={`${styles.bottomBar} container`}>
         <p className={styles.copyright}>
-          © {year} ARENABASE. All rights reserved.
+          © {year} ARENABASE. All rights reserved. <br />
+          IN LOVING MEMORY OF MARCELO
         </p>
       </div>
     </footer>

@@ -37,16 +37,19 @@ export default function AboutPage() {
 
           <FadeIn variant="up" delay={80}>
             <h1 id="about-heading" className={styles.heroTitle}>
-              Local Sports.<br />
-              <span className={styles.accent}>One Platform.</span>
+              Where Local.<br />
+              <span className={styles.accent}>Sports Live.</span>
             </h1>
           </FadeIn>
 
           <FadeIn variant="up" delay={160}>
             <p className={styles.heroSub}>
-              ARENABASE is the digital home for grassroots football in Kajiado, Kenya —
-              bringing fixtures, results, tournaments and announcements out of WhatsApp
-              groups and Facebook pages, onto a fast, reliable platform anyone can visit.
+              ARENABASE is a community-driven sports platform built to make local sports easier to follow, discover, and enjoy.
+We bring fixtures, results, tournaments, and announcements together in one place so fans, teams, and organizers always know what's happening.
+No endless searching through WhatsApp groups.
+No missed fixture updates.
+No wondering where the next match is happening.
+Just local sports, organized.
             </p>
           </FadeIn>
         </div>
@@ -58,17 +61,26 @@ export default function AboutPage() {
           <div className={styles.sectionInner}>
             <div className={styles.sectionLabel} aria-hidden="true">Our Mission</div>
             <h2 id="mission-heading" className={styles.sectionTitle}>
-              The first stop for grassroots football
+              Building the Home of Local Sports
             </h2>
             <p className={styles.sectionText}>
-              Right now, local sports information in Kajiado is scattered. Fixture dates
-              get buried in group chats. Venue changes are announced too late. Results
-              are shared inconsistently. Fans miss matches they care about.
+              We believe grassroots sports deserve the same visibility, excitement, and accessibility as professional competitions.
+
+We're building a platform where:
+
+Fans can quickly find fixtures, results, and announcements.
+Teams can increase their visibility and grow their support.
+Tournament organizers can reach more people and keep everyone informed.
+Communities can stay connected to the sports they love.
             </p>
             <p className={styles.sectionText}>
-              ARENABASE fixes that. Every fixture, every result, every tournament
-              announcement — published in one place, available instantly to anyone with
-              a phone. Our goal is habit formation: <em>&ldquo;Let me check Arenabase.&rdquo;</em>
+              Before the weekend begins, fans check ARENABASE for fixtures.
+
+After the final whistle, they return for results.
+
+When a tournament launches, they know exactly where to find information.
+
+Our mission is to become the most trusted source of local sports information in the community.
             </p>
           </div>
         </FadeIn>
@@ -79,8 +91,8 @@ export default function AboutPage() {
         <div className={`${styles.statsInner} container`}>
           {[
             { value: 'Kajiado', label: 'County, Kenya' },
-            { value: '2025',    label: 'Founded' },
-            { value: 'Free',    label: 'Always free for fans' },
+            { value: '2026',    label: 'Founded' },
+            { value: ' Fans',    label: 'Built for' },
           ].map((stat, i) => (
             <FadeIn key={stat.label} variant="up" delay={i * 80} className={styles.statItem}>
               <span className={styles.statValue}>{stat.value}</span>
@@ -94,7 +106,7 @@ export default function AboutPage() {
       <section className={`${styles.section} container`} aria-labelledby="cover-heading">
         <div className={styles.sectionInner}>
           <FadeIn variant="left">
-            <div className={styles.sectionLabel} aria-hidden="true">What We Cover</div>
+            <div className={styles.sectionLabel} aria-hidden="true">What You Can Find on ARENABASE</div>
             <h2 id="cover-heading" className={styles.sectionTitle}>Everything on one page</h2>
           </FadeIn>
 
@@ -107,7 +119,7 @@ export default function AboutPage() {
                   </svg>
                 ),
                 title: 'Fixtures',
-                desc: 'Every upcoming match — kick-off times, venues and tournament context. Filter by date or competition.',
+                desc: 'Know who is playing, where, and when. Never miss an important match again.',
                 href: '/fixtures',
               },
               {
@@ -117,7 +129,7 @@ export default function AboutPage() {
                   </svg>
                 ),
                 title: 'Results',
-                desc: 'Full-time scores published as soon as matches end. Winner highlighting, draw recognition, penalty notes.',
+                desc: 'Catch up on scores and outcomes as soon as matches finish.',
                 href: '/results',
               },
               {
@@ -128,7 +140,7 @@ export default function AboutPage() {
                   </svg>
                 ),
                 title: 'Tournaments',
-                desc: 'Ongoing and upcoming competitions. Each tournament has its own fixtures, results and team list.',
+                desc: 'Follow competitions from kickoff to the final whistle, all in one place.',
                 href: '/tournaments',
               },
               {
@@ -138,7 +150,7 @@ export default function AboutPage() {
                   </svg>
                 ),
                 title: 'Announcements',
-                desc: 'Venue changes, registration deadlines, referee notices and general updates — all in one feed.',
+                desc: 'Stay informed about venue changes, registrations, schedules, and important updates.',
                 href: '/announcements',
               },
             ].map((f, i) => (
@@ -159,14 +171,16 @@ export default function AboutPage() {
       <section className={`${styles.section} ${styles.sectionAlt}`} aria-labelledby="contact-heading">
         <FadeIn variant="up">
           <div className={`${styles.sectionInner} container`}>
-            <div className={styles.sectionLabel} aria-hidden="true">Tournament Organisers</div>
+            <div className={styles.sectionLabel} aria-hidden="true">For Tournament Organizers</div>
             <h2 id="contact-heading" className={styles.sectionTitle}>
               Want your tournament on ARENABASE?
             </h2>
             <p className={styles.sectionText}>
-              If you organise a local football competition in Kajiado and want your
-              fixtures, results and announcements published here, get in touch. We publish
-              for free — this platform exists to serve the community.
+              if you organize tournaments and would like your fixtures, results, and announcements featured on ARENABASE, we'd love to hear from you.
+
+We're working alongside organizers, teams, and communities to make local sports easier to follow and more accessible for everyone.
+
+Together, we can build a stronger and more connected sports community.
             </p>
             <p className={styles.sectionText}>
               Reach us directly via WhatsApp or call. We typically respond within a few hours.

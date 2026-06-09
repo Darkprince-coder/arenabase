@@ -71,22 +71,22 @@ const FEATURES = [
   {
     Icon: TrophyPageIcon,
     title: 'Dedicated tournament page',
-    desc: 'Fixtures, results, standings and team list — all under one shareable URL your fans can bookmark.',
+    desc: 'Your fixtures, results, standings and announcements all in one place fans can visit anytime.',
   },
   {
     Icon: NoiseIcon,
-    title: 'Replace WhatsApp noise',
-    desc: 'Post fixture updates and venue changes once. Every fan sees them instantly — no group chat chaos.',
+    title: 'One Update. Multiple Channels.',
+    desc: 'Share fixture changes, announcements and venue updates in one place instead of repeating them across multiple groups',
   },
   {
     Icon: ReachIcon,
-    title: 'Reach every local fan',
-    desc: 'Fans already visiting ARENABASE find your tournament. Google finds it too — SEO built in from day one.',
+    title: 'Get Your Tournament Seen',
+    desc: 'Put your competition in front of local sports fans actively looking for fixtures, results and upcoming matches.',
   },
   {
     Icon: FreeIcon,
-    title: 'Free to get started',
-    desc: 'No fees, no contracts. Share your fixture list and we get it live. You focus on running the game.',
+    title: 'Focus on the Game',
+    desc: 'Send us your fixtures and tournament information. We will publish everything so fans stay informed while you run the competition.',
   },
 ];
 
@@ -105,21 +105,20 @@ export default function ForOrganisers() {
 
           <FadeIn variant="left">
             <p className={styles.eyebrow} aria-hidden="true">
-              For Tournament Organisers
+              FOR TOURNAMENT ORGANIZERS
             </p>
           </FadeIn>
 
           <FadeIn variant="up" delay={60}>
             <h2 id="organisers-heading" className={styles.title}>
-              Your tournament.<br />
-              <span className={styles.accent}>Live on ARENABASE.</span>
+              Get Your Tournament.<br />
+              <span className={styles.accent}>On ARENABASE.</span>
             </h2>
           </FadeIn>
 
           <FadeIn variant="up" delay={120}>
             <p className={styles.subtitle}>
-              Get your fixtures, results and announcements in front of every local
-              football fan in Kajiado — for free. We handle the setup, you run the tournament.
+              Get your fixtures, results and announcements in front of local sports fans. Build visibility, keep supporters informed and make your competition easier to follow.
             </p>
           </FadeIn>
 

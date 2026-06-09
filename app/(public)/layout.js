@@ -2,6 +2,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import MicrosoftClarity from '@/components/analytics/MicrosoftClarity';
+import ScrollToTop from '@/components/ui/ScrollToTop';
 import styles from './layout.module.css';
 
 /**
@@ -29,6 +30,7 @@ export default function PublicLayout({ children }) {
         {children}
       </main>
       <Footer />
+      <ScrollToTop />
     </>
   );
 }
