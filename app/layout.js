@@ -20,11 +20,11 @@ const inter = Inter({
 /* ── Metadata ─────────────────────────────────────────── */
 export const metadata = {
   title: {
-    default: 'ARENABASE | Local Sports. One Platform.',
+    default: 'ARENABASE | Where Local Sports Live',
     template: '%s | ARENABASE',
   },
   description:
-    'Fixtures, results, tournaments and announcements from your local sports community in Kajiado. Your first stop for grassroots football.',
+    'Fixtures, results, tournaments and announcements from local sports across Kajiado. Follow your favorite teams, discover upcoming matches and never miss a game.',
   keywords: [
     'football fixtures Kajiado',
     'grassroots football Kenya',
@@ -35,9 +35,9 @@ export const metadata = {
   ],
   metadataBase: new URL('https://www.arenabase.co.ke'),
   openGraph: {
-    title: 'ARENABASE | Local Sports. One Platform.',
+    title: 'ARENABASE | Where Local Sports Live',
     description:
-      'Fixtures, results, tournaments and announcements from your local sports community in Kajiado.',
+      'Fixtures, results, tournaments and announcements from local sports across Kajiado. Follow your favorite teams, discover upcoming matches and never miss a game.',
     url: 'https://www.arenabase.co.ke',
     siteName: 'ARENABASE',
     images: [
@@ -45,7 +45,7 @@ export const metadata = {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'ARENABASE — Local Sports. One Platform.',
+        alt: 'ARENABASE — Where Local Sports Live',
       },
     ],
     locale: 'en_KE',
@@ -53,9 +53,9 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ARENABASE | Local Sports. One Platform.',
+    title: 'ARENABASE | Where Local Sports Live',
     description:
-      'Fixtures, results, tournaments and announcements from your local sports community.',
+      'Fixtures, results, tournaments and announcements from local sports across Kajiado. Follow your favorite teams, discover upcoming matches and never miss a game.',
     images: ['/og-image.jpg'],
   },
   robots: {

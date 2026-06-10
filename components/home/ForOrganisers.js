@@ -153,7 +153,7 @@ export default function ForOrganisers() {
               </a>
             </div>
 
-            <p className={styles.footnote}>Free to get started. No contract.</p>
+           {/*  <p className={styles.footnote}>Free to get started.</p> */}
           </FadeIn>
         </div>
 
