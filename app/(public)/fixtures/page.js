@@ -18,9 +18,12 @@ export const metadata = {
   },
 };
 
+/* ── All non-completed statuses ─────────────────────── */
+const ACTIVE_STATUSES = ['scheduled', 'live', 'postponed', 'cancelled'];
+
 /* ── Date bound helpers ─────────────────────────────── */
 function getDateBounds(dateParam) {
-  const now      = new Date();
+  const now        = new Date();
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
   switch (dateParam) {
@@ -30,7 +33,6 @@ function getDateBounds(dateParam) {
       return { gte: todayStart.toISOString(), lt: end.toISOString() };
     }
     case 'this-week': {
-      // Monday → following Sunday
       const dow    = todayStart.getDay();
       const monday = new Date(todayStart);
       monday.setDate(todayStart.getDate() - (dow === 0 ? 6 : dow - 1));
@@ -39,7 +41,6 @@ function getDateBounds(dateParam) {
       return { gte: now.toISOString(), lt: sunday.toISOString() };
     }
     case 'this-weekend': {
-      // This Saturday 00:00 → following Monday 00:00
       const dow      = todayStart.getDay();
       const saturday = new Date(todayStart);
       saturday.setDate(todayStart.getDate() + (dow === 6 ? 0 : 6 - dow));
@@ -51,7 +52,7 @@ function getDateBounds(dateParam) {
       const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
       return { gte: now.toISOString(), lt: nextMonth.toISOString() };
     }
-    default: // 'all' — from now, no upper bound
+    default:
       return { gte: now.toISOString(), lt: null };
   }
 }
@@ -60,12 +61,9 @@ function getDateBounds(dateParam) {
 async function getPageData(tournamentSlug, dateParam) {
   const bounds = getDateBounds(dateParam);
 
-  /* Fetch tournaments list (for dropdown) in parallel with total count */
-  const [{ data: tournamentsData }, { count: total }] = await Promise.all([
-    supabase
-      .from('tournaments')
-      .select('id, name, slug')
-      .order('name'),
+  const [{ data: tournamentsData }, { count: upcomingCount }] = await Promise.all([
+    supabase.from('tournaments').select('id, name, slug').order('name'),
+    /* Badge shows truly upcoming only (scheduled + live) */
     supabase
       .from('fixtures')
       .select('*', { count: 'exact', head: true })
@@ -73,14 +71,13 @@ async function getPageData(tournamentSlug, dateParam) {
       .gte('kickoff_time', bounds.gte),
   ]);
 
-  /* Resolve optional tournament filter → tournament_id */
-  const tournaments    = tournamentsData ?? [];
+  const tournaments        = tournamentsData ?? [];
   const selectedTournament =
     tournamentSlug && tournamentSlug !== 'all'
       ? tournaments.find(t => t.slug === tournamentSlug) ?? null
       : null;
 
-  /* Build fixtures query */
+  /* Fetch all active statuses so postponed/cancelled cards appear */
   let q = supabase
     .from('fixtures')
     .select(`
@@ -90,24 +87,24 @@ async function getPageData(tournamentSlug, dateParam) {
       venue:venue_id(name),
       tournament:tournament_id(id, name, slug)
     `)
-    .in('status', ['scheduled', 'live'])
+    .in('status', ACTIVE_STATUSES)
     .gte('kickoff_time', bounds.gte)
     .order('kickoff_time')
     .limit(60);
 
-  if (bounds.lt)           q = q.lt('kickoff_time', bounds.lt);
-  if (selectedTournament)  q = q.eq('tournament_id', selectedTournament.id);
+  if (bounds.lt)          q = q.lt('kickoff_time', bounds.lt);
+  if (selectedTournament) q = q.eq('tournament_id', selectedTournament.id);
 
   const { data: fixturesData } = await q;
 
   return {
-    fixtures:    fixturesData ?? [],
+    fixtures:      fixturesData ?? [],
     tournaments,
-    total:       total ?? 0,
+    upcomingCount: upcomingCount ?? 0,
   };
 }
 
-/* ── Filter skeleton (shown while FixturesFilter hydrates) ── */
+/* ── Filter skeleton ────────────────────────────────── */
 function FilterSkeleton() {
   return (
     <div className={styles.filterSkeleton} aria-hidden="true">
@@ -119,30 +116,26 @@ function FilterSkeleton() {
 
 /* ── Page ───────────────────────────────────────────── */
 export default async function FixturesPage(props) {
-  /* Next.js 15: searchParams is a Promise */
-  const searchParams     = await props.searchParams;
-  const tournamentSlug   = searchParams?.tournament ?? 'all';
-  const dateParam        = searchParams?.date       ?? 'all';
+  const searchParams   = await props.searchParams;
+  const tournamentSlug = searchParams?.tournament ?? 'all';
+  const dateParam      = searchParams?.date       ?? 'all';
 
-  const { fixtures, tournaments, total } = await getPageData(tournamentSlug, dateParam);
+  const { fixtures, tournaments, upcomingCount } = await getPageData(tournamentSlug, dateParam);
 
   return (
     <>
-      {/* ── Page header ─────────────────────────── */}
       <PageHeader
         title="FIXTURES"
         subtitle="Find all upcoming matches across tournaments."
       >
-        {total > 0 && (
+        {upcomingCount > 0 && (
           <span className={styles.totalBadge}>
-            {total} upcoming
+            {upcomingCount} upcoming
           </span>
         )}
       </PageHeader>
 
-      {/* ── Filters + List ──────────────────────── */}
       <div className={`${styles.body} container`}>
-        {/* FixturesFilter uses useSearchParams — must be in Suspense */}
         <Suspense fallback={<FilterSkeleton />}>
           <FixturesFilter tournaments={tournaments} />
         </Suspense>
