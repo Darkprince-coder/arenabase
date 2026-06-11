@@ -2,7 +2,6 @@
   padding-bottom: var(--sp-16);
 }
 
-/* ── Date group ─────────────────────────────────────── */
 .dateGroup {
   margin-bottom: var(--sp-10);
 }
@@ -22,63 +21,119 @@
   border-bottom: 1px solid var(--color-border-subtle);
 }
 
-.dateCount {
-  font-weight: 500;
-  color: var(--color-text-muted);
-  opacity: 0.6;
-  font-size: var(--text-xs);
-  letter-spacing: 0.04em;
-}
-
-/* ── Rows container ─────────────────────────────────── */
 .rows {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-2);
+  gap: var(--sp-4); /* Slightly wider gap to let cards breathe */
 }
 
-/* ── Single fixture row ─────────────────────────────── */
-.row {
+/* ── Container Card ────────────────────────────────── */
+.rowCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg-surface, #111111);
+  border: 1px solid var(--color-border, #222222);
+  border-radius: var(--radius-lg, 16px);
+  overflow: hidden;
+  transition: transform var(--ease-fast, 0.2s ease), border-color var(--ease-fast, 0.2s ease);
+}
+
+.rowCard:hover {
+  transform: translateY(-2px);
+}
+
+/* ── Inner Main Layout Row ──────────────────────────── */
+.matchContent {
   position: relative;
   display: grid;
-  grid-template-columns: 80px 1fr 52px 1fr minmax(0, 200px);
+  grid-template-columns: 90px 1fr 60px 1fr minmax(0, 220px);
   align-items: center;
   gap: var(--sp-4);
-  padding: var(--sp-4) var(--sp-5);
-  background: var(--color-bg-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  transition:
-    border-color var(--ease-fast),
-    background-color var(--ease-fast),
-    transform var(--ease-fast);
+  padding: var(--sp-5) var(--sp-6);
+  z-index: 3;
 }
 
-.row:hover {
-  border-color: var(--color-border);
-  background: var(--color-bg-elevated);
-  transform: translateX(3px);
-}
-
-/* Left accent bar */
+/* ── Left Accent Hover Bar (Normal Matches) ────────── */
 .accentBar {
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
-  width: 3px;
-  background: var(--color-accent);
+  width: 4px;
+  background: var(--color-accent, #adff2f);
   opacity: 0;
-  border-radius: 0 2px 2px 0;
-  transition: opacity var(--ease-fast);
+  transition: opacity 0.2s ease;
 }
-
-.row:hover .accentBar {
+.rowCard:hover .accentBar {
   opacity: 1;
 }
 
-/* Time column */
+/* ── Status Variant Theming ────────────────────────── */
+
+/* 1. Postponed Variant (Amber / Gold Theme) */
+.postponed {
+  border: 2px solid #ffb800;
+  box-shadow: 0 8px 24px rgba(255, 184, 0, 0.08);
+}
+.postponed .statusBanner {
+  background: linear-gradient(135deg, #ffb800 0%, #e6a600 100%);
+  color: #000000;
+  /* Premium CSS CSS Diagonal Alert Striping Pattern */
+  background-image: linear-gradient(
+    -45deg, 
+    rgba(0, 0, 0, 0.05) 25%, 
+    transparent 25%, 
+    transparent 50%, 
+    rgba(0, 0, 0, 0.05) 50%, 
+    rgba(0, 0, 0, 0.05) 75%, 
+    transparent 75%, 
+    transparent
+  );
+  background-size: 40px 40px;
+}
+.postponed .statusPill {
+  border: 1px solid rgba(255, 184, 0, 0.4);
+  color: #ffb800;
+  background: rgba(255, 184, 0, 0.05);
+}
+
+/* 2. Cancelled Variant (Crimson Red Theme) */
+.cancelled {
+  border: 2px solid #e04343;
+  box-shadow: 0 8px 24px rgba(224, 67, 67, 0.08);
+}
+.cancelled .statusBanner {
+  background: linear-gradient(135deg, #e04343 0%, #c53535 100%);
+  color: #ffffff;
+  background-image: linear-gradient(
+    -45deg, 
+    rgba(255, 255, 255, 0.05) 25%, 
+    transparent 25%, 
+    transparent 50%, 
+    rgba(255, 255, 255, 0.05) 50%, 
+    rgba(255, 255, 255, 0.05) 75%, 
+    transparent 75%, 
+    transparent
+  );
+  background-size: 40px 40px;
+}
+
+/* ── Component Elements inside Rows ────────────────── */
+.statusBanner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2, 8px);
+  padding-block: var(--sp-2, 10px);
+  font-family: var(--font-heading);
+  font-size: var(--text-sm, 14px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  width: 100%;
+}
+
 .timeCol {
   display: flex;
   align-items: center;
@@ -87,10 +142,24 @@
 
 .time {
   font-family: var(--font-heading);
-  font-size: var(--text-xl);
-  color: var(--color-accent);
-  letter-spacing: 0.02em;
-  line-height: 1;
+  font-size: var(--text-xl, 20px);
+  font-weight: 700;
+  color: var(--color-accent, #adff2f);
+}
+
+/* Postponed and Cancelled matches timestamp colors */
+.postponed .time { color: #ffb800; }
+.cancelled .time { color: #e04343; }
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
 }
 
 .liveTag {
@@ -100,174 +169,157 @@
   font-size: var(--text-xs);
   font-weight: 800;
   color: #fff;
-  background: var(--color-live);
-  padding: 3px var(--sp-2);
-  border-radius: var(--radius-sm);
-  letter-spacing: 0.06em;
+  background: #ff0055;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
-.liveDot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #fff;
-  animation: pulse-live 1.5s ease-in-out infinite;
-}
-
-/* Home team (right-aligned) */
+/* Team Text Alignments */
 .homeTeam {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--sp-3);
+  gap: var(--sp-4);
   min-width: 0;
 }
+.homeTeam .teamName { text-align: right; }
 
-.homeTeam .teamName {
-  text-align: right;
-}
-
-/* Away team (left-aligned) */
 .awayTeam {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: var(--sp-3);
+  gap: var(--sp-4);
   min-width: 0;
 }
 
-/* Team name shared */
 .teamName {
-  font-size: var(--text-base);
-  font-weight: 600;
-  color: var(--color-text-primary);
+  font-size: var(--text-lg, 18px);
+  font-weight: 700;
+  color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-width: 0;
-  flex: 1;
 }
 
-/* VS */
+/* Centralized VS Badge System */
 .vs {
-  font-family: var(--font-heading);
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-  text-align: center;
-  letter-spacing: 0.06em;
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: var(--text-xs, 12px);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #777);
+  margin: auto;
 }
+.postponedVs { border-color: rgba(255, 184, 0, 0.3); color: rgba(255, 184, 0, 0.6); }
+.cancelledVs { border-color: rgba(224, 67, 67, 0.3); color: rgba(224, 67, 67, 0.6); }
 
-/* Meta column */
+/* Meta Side Column Descriptor */
 .meta {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-1);
+  gap: 4px;
   align-items: flex-end;
-  min-width: 0;
+  text-align: right;
 }
-
-.tournament {
-  font-size: var(--text-xs);
-  font-weight: 600;
-  color: var(--color-text-secondary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
+.tournament { font-size: 11px; font-weight: 600; color: #aaa; }
 .venue {
   display: flex;
   align-items: center;
-  gap: 3px;
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
+  gap: 4px;
+  font-size: 11px;
+  color: #777;
+}
+
+/* Translucent Watermarks */
+.statusWatermark {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%) rotate(-5deg);
+  font-size: 72px;
+  font-weight: 950;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  pointer-events: none;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
+  user-select: none;
 }
+.postponed .statusWatermark { color: #ffb800; opacity: 0.04; }
+.cancelled .statusWatermark { color: #e04343; opacity: 0.04; }
 
-/* ── Empty state ────────────────────────────────────── */
-.empty {
+/* ── Bottom Info Alert Strip ───────────────────────── */
+.statusInfo {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
-  padding-block: var(--sp-24);
-  gap: var(--sp-4);
+  justify-content: space-between;
+  padding: var(--sp-3) var(--sp-6);
+  border-top: 1px dashed rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.15);
+  font-size: var(--text-sm, 13px);
+  font-weight: 500;
+}
+.infoText {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2, 8px);
+}
+.postponed .statusInfo { color: #ffb800; border-top-color: rgba(255, 184, 0, 0.15); }
+.cancelled .statusInfo { color: #ff9a9a; border-top-color: rgba(224, 67, 67, 0.15); }
+
+.footerVenue {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #888888;
 }
 
-.emptyIcon { color: var(--color-border); margin-bottom: var(--sp-2); }
-.emptyMsg  { font-size: var(--text-lg); font-weight: 600; color: var(--color-text-muted); }
-.emptyHint { font-size: var(--text-sm); color: var(--color-text-muted); opacity: 0.6; max-width: 340px; }
-
-/* ── Responsive — 860px: hide meta column ───────────── */
-@media (max-width: 860px) {
-  .row {
-    grid-template-columns: 72px 1fr 44px 1fr;
+/* ── RESPONSIVE ADAPTATIONS (Desktop Down) ──────────── */
+@media (max-width: 920px) {
+  .matchContent {
+    grid-template-columns: 80px 1fr 48px 1fr;
   }
-  .meta { display: none; }
+  .meta { display: none; } /* Hide right side meta panel */
 }
 
-/* ── Responsive — 540px: grid-area layout ───────────── */
-/*
-  Restructure to two rows:
-    Row 1: [time] [home] [vs] [away]
-    Row 2: [meta — full width, venue + tournament inline]
-
-  This gives mobile users all the information without cramping.
-*/
-@media (max-width: 540px) {
-  .row {
-    display: grid;
-    grid-template-columns: 64px 1fr 32px 1fr;
+/* Mobile Responsive Layout Override */
+@media (max-width: 580px) {
+  .matchContent {
+    grid-template-columns: 1fr var(--sp-8, 32px) 1fr;
     grid-template-rows: auto auto;
-    grid-template-areas:
-      "time home vs away"
-      "meta meta meta meta";
-    gap: var(--sp-2);
-    padding: var(--sp-3) var(--sp-4);
-    align-items: center;
+    padding: var(--sp-4) var(--sp-5);
+    gap: var(--sp-3) var(--sp-2);
   }
-
-  .timeCol  { grid-area: time; }
-  .homeTeam { grid-area: home; }
-  .vs       { grid-area: vs; font-size: var(--text-xs); }
-  .awayTeam { grid-area: away; }
-
-  /* Meta row — visible again, now full-width and horizontal */
-  .meta {
-    grid-area: meta;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  
+  /* Put Time/Status Pill full-width on row 1 */
+  .timeCol {
+    grid-column: 1 / -1;
     justify-content: flex-start;
-    gap: var(--sp-4);
-    padding-top: var(--sp-2);
-    border-top: 1px solid var(--color-border-subtle);
-
-    /* Override desktop right-alignment */
-    align-self: auto;
+    margin-bottom: 2px;
   }
 
-  .tournament,
-  .venue {
-    max-width: none;
-    overflow: visible;
-    white-space: normal;
-    font-size: 10px;
+  .homeTeam { justify-content: flex-end; }
+  .awayTeam { justify-content: flex-start; }
+  
+  .teamName { font-size: var(--text-base, 15px); }
+  .statusWatermark { display: none; } /* Drop watermarks on tiny layers */
+  
+  .statusInfo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-2);
+    padding: var(--sp-3) var(--sp-5);
   }
-
-  /* Put venue first (pin icon is a visual anchor) */
-  .venue { order: -1; }
-
-  .teamName {
-    font-size: var(--text-sm);
-  }
-
-  .time {
-    font-size: var(--text-lg);
+  
+  .statusBanner {
+    font-size: 12px;
+    padding-block: 8px;
   }
 }
