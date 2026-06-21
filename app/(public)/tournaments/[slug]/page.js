@@ -5,6 +5,7 @@ import { supabase }  from '@/lib/supabase';
 import { img }       from '@/lib/cloudinary';
 import TournamentTabs     from '@/components/tournaments/TournamentTabs';
 import TournamentFixtures from '@/components/tournaments/TournamentFixtures';
+import TournamentFixturesFilter from '@/components/tournaments/TournamentFixturesFilter';
 import TournamentResults  from '@/components/tournaments/TournamentResults';
 import TournamentTeams    from '@/components/tournaments/TournamentTeams';
 import styles from './page.module.css';
@@ -79,9 +80,38 @@ function getGradient(slug) {
 }
 
 /* ── Tab-specific data fetching ─────────────────────── */
-async function getTabData(tournament, activeTab) {
+async function getTabData(tournament, activeTab, dateFilter) {
   if (activeTab === 'fixtures') {
-    const { data } = await supabase
+    // dateFilter controls which fixtures are fetched. Default is 'upcoming'
+    const now = new Date();
+
+    // Helper to get bounds for date tabs
+    function getDateBounds(dateParam) {
+      const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      switch (dateParam) {
+        case 'today': {
+          const end = new Date(todayStart);
+          end.setDate(end.getDate() + 1);
+          return { gte: todayStart.toISOString(), lt: end.toISOString() };
+        }
+        case 'this-week': {
+          const dow = todayStart.getDay();
+          const monday = new Date(todayStart);
+          monday.setDate(todayStart.getDate() - (dow === 0 ? 6 : dow - 1));
+          const sunday = new Date(monday);
+          sunday.setDate(monday.getDate() + 7);
+          return { gte: monday.toISOString(), lt: sunday.toISOString() };
+        }
+        case 'this-month': {
+          const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+          return { gte: todayStart.toISOString(), lt: nextMonth.toISOString() };
+        }
+        default:
+          return { gte: null, lt: null };
+      }
+    }
+
+    let q = supabase
       .from('fixtures')
       .select(`
         id, kickoff_time, round, status,
@@ -91,6 +121,21 @@ async function getTabData(tournament, activeTab) {
       `)
       .eq('tournament_id', tournament.id)
       .order('kickoff_time');
+
+    if (!dateFilter || dateFilter === 'upcoming') {
+      // Upcoming: future kickoff times (from now) and not completed
+      q = q.gte('kickoff_time', now.toISOString()).neq('status', 'completed');
+    } else if (dateFilter === 'past') {
+      // Past: completed fixtures before now
+      q = q.lt('kickoff_time', now.toISOString()).eq('status', 'completed').order('kickoff_time', { ascending: false });
+    } else {
+      // today / this-week / this-month — use bounds
+      const bounds = getDateBounds(dateFilter);
+      if (bounds.gte) q = q.gte('kickoff_time', bounds.gte);
+      if (bounds.lt) q = q.lt('kickoff_time', bounds.lt);
+    }
+
+    const { data } = await q;
     return { fixtures: data ?? [] };
   }
 
@@ -206,7 +251,8 @@ export default async function TournamentDetailPage(props) {
 
   if (!tournament) notFound();
 
-  const tabData = await getTabData(tournament, activeTab);
+  const dateFilter = searchParams?.date ?? 'upcoming'
+  const tabData = await getTabData(tournament, activeTab, dateFilter);
 
   const heroBg = tournament.banner_public_id
     ? { backgroundImage: `url(${img.tournamentBanner(tournament.banner_public_id)})` }
@@ -310,7 +356,10 @@ export default async function TournamentDetailPage(props) {
       {/* ── Tab content ─────────────────────────────── */}
       <div className={`${styles.tabContent} container`}>
         {activeTab === 'fixtures' && (
-          <TournamentFixtures fixtures={tabData.fixtures ?? []} />
+          <>
+            <TournamentFixturesFilter slug={tournament.slug} />
+            <TournamentFixtures fixtures={tabData.fixtures ?? []} />
+          </>
         )}
         {activeTab === 'results' && (
           <TournamentResults results={tabData.results ?? []} />
