@@ -16,13 +16,14 @@ function parseFormData(formData) {
   const startDate   = formData.get('start_date')?.toString()  || null
   const endDate     = formData.get('end_date')?.toString()    || null
   const bannerId    = formData.get('banner_public_id')?.toString().trim() || null
+  const teamIds     = formData.getAll('team_ids[]').map(v => v?.toString()).filter(Boolean)
 
   if (!name) return { data: null, error: 'Tournament name is required.' }
   if (!slug) return { data: null, error: 'URL slug is required.' }
 
   return {
     error: null,
-    data: { name, slug, description, status, format, total_teams: totalTeams, start_date: startDate, end_date: endDate, banner_public_id: bannerId },
+    data: { name, slug, description, status, format, total_teams: totalTeams, start_date: startDate, end_date: endDate, banner_public_id: bannerId, team_ids: teamIds },
   }
 }
 
@@ -40,16 +41,36 @@ export async function createTournament(prevState, formData) {
     .eq('slug', 'football')
     .maybeSingle()
 
-  const { error: dbError } = await admin.from('tournaments').insert({
-    ...data,
+  const { data: inserted, error: dbError } = await admin.from('tournaments').insert({
+    name: data.name,
+    slug: data.slug,
+    description: data.description,
+    status: data.status,
+    format: data.format,
+    total_teams: data.total_teams,
+    start_date: data.start_date,
+    end_date: data.end_date,
+    banner_public_id: data.banner_public_id,
     sport_id: sport?.id ?? null,
-  })
+  }).select('id, slug').single()
 
   if (dbError) {
     if (dbError.code === '23505') {
       return { error: `A tournament with the slug "${data.slug}" already exists. Choose a different name or edit the slug.` }
     }
     return { error: dbError.message }
+  }
+
+  // Insert tournament -> team mappings if any
+  try {
+    const teamIds = data.team_ids ?? []
+    if (teamIds.length > 0) {
+      const rows = teamIds.map(tid => ({ tournament_id: inserted.id, team_id: tid }))
+      const { error: ttError } = await admin.from('tournament_teams').insert(rows)
+      if (ttError) console.error('[createTournament] tournament_teams insert error', ttError.message)
+    }
+  } catch (e) {
+    console.error('[createTournament] sync teams', e)
   }
 
   revalidatePath('/admin/tournaments')
@@ -71,7 +92,17 @@ export async function updateTournament(id, prevState, formData) {
 
   const { error: dbError } = await admin
     .from('tournaments')
-    .update(data)
+    .update({
+      name: data.name,
+      slug: data.slug,
+      description: data.description,
+      status: data.status,
+      format: data.format,
+      total_teams: data.total_teams,
+      start_date: data.start_date,
+      end_date: data.end_date,
+      banner_public_id: data.banner_public_id,
+    })
     .eq('id', id)
 
   if (dbError) {
@@ -79,6 +110,21 @@ export async function updateTournament(id, prevState, formData) {
       return { error: `A tournament with the slug "${data.slug}" already exists.` }
     }
     return { error: dbError.message }
+  }
+
+  // Sync tournament_teams: delete current entries then insert new mappings
+  try {
+    const teamIds = data.team_ids ?? []
+    // remove existing
+    await admin.from('tournament_teams').delete().eq('tournament_id', id)
+    // insert new
+    if (teamIds.length > 0) {
+      const rows = teamIds.map(tid => ({ tournament_id: id, team_id: tid }))
+      const { error: ttError } = await admin.from('tournament_teams').insert(rows)
+      if (ttError) console.error('[updateTournament] tournament_teams insert error', ttError.message)
+    }
+  } catch (e) {
+    console.error('[updateTournament] sync teams', e)
   }
 
   revalidatePath('/admin/tournaments')

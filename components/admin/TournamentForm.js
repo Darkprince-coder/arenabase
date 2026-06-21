@@ -1,6 +1,7 @@
-'use client'
+"use client"
 
 import { useState, useEffect, useActionState } from 'react'
+import TeamMultiSelect from './TeamMultiSelect'
 import { slugify } from '@/lib/utils'
 import styles from './TournamentForm.module.css'
 import ImageUpload from './ImageUpload'
@@ -93,9 +94,7 @@ export default function TournamentForm({ action, initialData = null }) {
       )}
 
       <div className={styles.grid}>
-        {/* ════════════════════════════════════
-            LEFT — main details
-            ════════════════════════════════════ */}
+        {/* LEFT — main details */}
         <div className={styles.mainCol}>
           <div className={styles.card}>
             <h2 className={styles.cardTitle}>Details</h2>
@@ -182,9 +181,7 @@ export default function TournamentForm({ action, initialData = null }) {
           </div>
         </div>
 
-        {/* ════════════════════════════════════
-            RIGHT — settings + submit
-            ════════════════════════════════════ */}
+        {/* RIGHT — settings + submit */}
         <div className={styles.metaCol}>
           <div className={styles.card}>
             <h2 className={styles.cardTitle}>Settings</h2>
@@ -241,6 +238,11 @@ export default function TournamentForm({ action, initialData = null }) {
               />
             </Field>
 
+            {/* Participating teams (searchable) */}
+            <Field label="Participating Teams" htmlFor="t-participants" hint="Search and add teams (optional)">
+              <TeamMultiSelect tournamentId={initialData?.id ?? null} disabled={isPending} />
+            </Field>
+
             {/* Start date */}
             <Field label="Start Date" htmlFor="t-start">
               <input
@@ -266,7 +268,7 @@ export default function TournamentForm({ action, initialData = null }) {
             </Field>
           </div>
 
-          {/* ── Submit ─────────────────────── */}
+          {/* Submit */}
           <button
             type="submit"
             className={styles.submitBtn}
